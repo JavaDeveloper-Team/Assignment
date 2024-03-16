@@ -1,43 +1,42 @@
-import java.util.ArrayList;
-
-abstract class Item {
+package assignement;
+import java.util.*;
+abstract class TechMartInventorySystem {
     private String productName;
     private double price;
 
-    public Item(String productName, double price) {
+    public TechMartInventorySystem (String productName, double price) {
         this.productName = productName;
         this.price = price;
     }
-
     public abstract void displayDetails();
-
-   
     public String getProductName() {
         return productName;
     }
-
-    public void setProductName(String productName) {
+    public void setProductName(String productName){
         this.productName = productName;
     }
-
-    public double getPrice() {
+    public double getProductPrice(){
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setProductPrice(double price) {
         this.price = price;
     }
+      public static void main(String[] args) {
+        Product electronicProduct = new Product("television", 1200.0, 101, 50);
+        Product clothingProduct = new Product("skirt", 50.0, 205, 200);
+        System.out.println("Current Inventory Details:"); 
+        TechMartInventorySystem  obj1=new Product("shoes",14,1,12);
+        obj1.displayDetails();
+    }
 }
-
-
-class Product extends Item {
+class Product extends TechMartInventorySystem  {
     private int productId;
-    private int quantityInStock;
-
-    public Product(String productName, double price, int productId, int quantityInStock) {
+    private int StockQuantity;
+    public Product(String productName, double price, int productId, int quantity) {
         super(productName, price);
         this.productId = productId;
-        this.quantityInStock = quantityInStock;
+        this.StockQuantity= quantity;
     }
 
     
@@ -49,65 +48,34 @@ class Product extends Item {
         this.productId = productId;
     }
 
-    public int getQuantityInStock() {
-        return quantityInStock;
+    public int getStockQuantity() {
+        return StockQuantity;
     }
 
-    public void setQuantityInStock(int quantityInStock) {
-        this.quantityInStock = quantityInStock;
+    public void setStockQuantity(int quantityInStock) {
+        this.StockQuantity = quantityInStock;
     }
 
   
     public void updateStock(int quantity) {
-        this.quantityInStock += quantity;
+        this.StockQuantity=StockQuantity+quantity;
     }
 
-    public double calculateInventoryValue() {
-        return getPrice() * getQuantityInStock();
+    public double calculateInventoryValue(){
+        return getProductPrice()*getStockQuantity();
     }
-
-    
-   
     public void displayDetails() {
         System.out.println("Product ID: " + getProductId());
         System.out.println("Product Name: " + getProductName());
-        System.out.println("Price: $" + getPrice());
-        System.out.println("Quantity in Stock is: " + getQuantityInStock());
+        System.out.println("Price: $" + getProductPrice());
+        System.out.println("Quantity in Stock: " + getStockQuantity());
     }
 }
-
-
 class Inventory {
-    private final ArrayList<Product> productList = new ArrayList<>();
-
-   
-    public void addProduct(Product product) {
-        productList.add(product);
-    }
-
-   
-    public void displayInventory() {
-        for (Product product : productList) {
-            product.displayDetails();
-            System.out.println("The Total Inventory Value is: $" + product.calculateInventoryValue());
-            System.out.println();
-        }
-    }
-}
-    
-public class TechMartInventorySystem {
-    public static void main(String[] args) {
+    public void addProduct(){
         
-        Product electronicProduct = new Product("laptop", 1200.0, 101, 50);
-        Product clothingProduct = new Product("trouser", 50.0, 205, 200);
-
-       
-        Inventory techMartInventory = new Inventory();
-        techMartInventory.addProduct(electronicProduct);
-        techMartInventory.addProduct(clothingProduct);
-
-       
-        System.out.println("Current Inventory Details:");
-        techMartInventory.displayInventory();
     }
-}
+    public void displayInventory(){
+        
+        }
+    } 
