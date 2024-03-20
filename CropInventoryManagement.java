@@ -1,98 +1,91 @@
 
+package cropinventory;
+
 import java.util.Scanner;
 
-public class CropInventoryManagement {
-    private static int MAX_CROPS = 100;
-    private String[] cropNames = new String[MAX_CROPS];
-    private int[] cropQuantities = new int[MAX_CROPS];
-    private int cropCount = 0;
-    private Scanner scanner = new Scanner(System.in);
+public class CropInventory {
+    private static final int MAX_CROPS = 200; 
 
-    public void run() {
-        boolean exit = false;
-        while (!exit) {
-            System.out.println("\nCrop Inventory Management System");
-            System.out.println("1. Add New Crop");
-            System.out.println("2. Update Crop Quantity");
-            System.out.println("3. View Current Inventory");
-            System.out.println("4. Exit");
-            System.out.print("Enter your choice: ");
-            int choice = scanner.nextInt();
-            scanner.nextLine(); // consume newline character
+    private static String[] cropNames;
+    private double[] cropQuantities;
+    private int numCrops;
 
-            switch (choice) {
-                case 1:
-                    addNewCrop();
-                    break;
-                case 2:
-                    updateCropQuantity();
-                    break;
-                case 3:
-                    viewInventory();
-                    break;
-                case 4:
-                    exit = true;
-                    System.out.println("Exiting Crop Inventory Management System. Goodbye!");
-                    break;
-                default:
-                    System.out.println("Invalid choice. Please enter a number between 1 and 4.");
-            }
-        }
-        scanner.close();
+    public CropInventory() {
+        cropNames = new String[MAX_CROPS];
+        cropQuantities = new double[MAX_CROPS];
+        numCrops = 0;
     }
 
-    private void addNewCrop() {
-        System.out.print("Enter crop name: ");
-        String name = scanner.nextLine();
-        System.out.print("Enter quantity: ");
-        int quantity = scanner.nextInt();
-        scanner.nextLine(); // consume newline character
-
-        if (cropCount < MAX_CROPS) {
-            cropNames[cropCount] = name;
-            cropQuantities[cropCount] = quantity;
-            cropCount++;
-            System.out.println("Crop added successfully.");
+    public void addCrop(String name, double quantity) {
+        if (numCrops < MAX_CROPS) {
+            cropNames[numCrops] = name;
+            cropQuantities[numCrops] = quantity;
+            numCrops++;
+            System.out.println("Crop added successfully!");
         } else {
-            System.out.println("Maximum number of crops reached. Cannot add more.");
+            System.out.println("Inventory is full. Cannot add more crops.");
         }
     }
 
-    private void updateCropQuantity() {
-        System.out.print("Enter the crop name to update quantity: ");
-        String name = scanner.nextLine();
-        System.out.print("Enter the new quantity: ");
-        int newQuantity = scanner.nextInt();
-        scanner.nextLine(); // consume newline character
-
-        boolean found = false;
-        for (int i = 0; i < cropCount; i++) {
+    public void updateQuantity(String name, double newQuantity) {
+        for (int i = 0; i < numCrops; i++) {
             if (cropNames[i].equalsIgnoreCase(name)) {
+                
                 cropQuantities[i] = newQuantity;
-                found = true;
-                System.out.println("Quantity updated successfully.");
-                break;
+                System.out.println("Quantity updated successfully!");
+                return;
             }
         }
-        if (!found) {
-            System.out.println("Crop not found in inventory.");
-        }
+        System.out.println("Crop not found in inventory.");
     }
 
-    private void viewInventory() {
-        if (cropCount == 0) {
-            System.out.println("Inventory is empty.");
-        } else {
-            System.out.println("Current Inventory:");
-            System.out.println("Crop Name\tQuantity");
-            for (int i = 0; i < cropCount; i++) {
-                System.out.println(cropNames[i] + "\t\t" + cropQuantities[i]);
-            }
+    public void viewInventory() {
+        System.out.println("Current Inventory:");
+        for (int i = 0; i < numCrops; i++) {
+            System.out.println(cropNames[i] + ": " + cropQuantities[i]);
         }
     }
 
     public static void main(String[] args) {
-        CropInventoryManagement cropInventoryManagement = new CropInventoryManagement();
-        cropInventoryManagement.run();
+        CropInventory inventory = new CropInventory();
+        Scanner scanner = new Scanner(System.in);
+        
+        while (true) {
+            System.out.println("\nMenu:");
+            System.out.println("1. Add Crop");
+            System.out.println("2. Update Quantity");
+            System.out.println("3. View Inventory");
+            System.out.println("4. Exit");
+            System.out.print("Enter your choice: ");
+            int choice = scanner.nextInt();
+            scanner.nextLine(); // Consume newline
+
+            switch (choice) {
+                case 1:
+                    
+                    System.out.print("Enter crop names : ");
+                    String cropName = scanner.nextLine();
+                    System.out.print("quantity: ");
+                    double cropQuantities = scanner.nextDouble();
+                    inventory.addCrop(cropName, cropQuantities);
+                    break;
+                    case 2:
+                    System.out.print("Update quantity: ");
+                    System.out.print("Enter crop name : ");
+                    String name = scanner.nextLine();
+                    System.out.print("quantity: ");
+                    double newQuantity= scanner.nextDouble();
+                    inventory.updateQuantity(name, newQuantity);
+                    break;
+                    case 3:
+                    System.out.print("view Inventory: ");
+                   inventory.viewInventory();
+                    break;
+                    case 4:
+                      System.exit(0);
+                    break;
+                    default:System.out.println("Invalid choice");
+            }
+        }
     }
 }
