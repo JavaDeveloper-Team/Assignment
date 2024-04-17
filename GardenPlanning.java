@@ -33,8 +33,11 @@ public class GardenPlanning extends WindowAdapter implements ActionListener {
     }
     @Override
     public void actionPerformed(ActionEvent e){//method to perform event handler
-        
+       if(e.getSource()==btn1){//condition to see if object is plan layout button
+        new GardenLayoutPlanning();//calling the GardenLayoutPlanning constructor from GardenLayoutPlanning class 
+        } 
     }
+    
 }
 
     
