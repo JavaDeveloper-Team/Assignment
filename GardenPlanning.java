@@ -36,6 +36,10 @@ public class GardenPlanning extends WindowAdapter implements ActionListener {
        if(e.getSource()==btn1){//condition to see if object is plan layout button
         new GardenLayoutPlanning();//calling the GardenLayoutPlanning constructor from GardenLayoutPlanning class 
         } 
+       if(e.getSource()==btn2){//condition to see if object is select plant button
+ new PlantSelect().setVisible(true);//calling the PlantSelect constructor from PlantSelect class
+    }    
+
     }
     
 }
