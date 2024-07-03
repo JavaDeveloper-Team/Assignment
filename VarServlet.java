@@ -16,7 +16,7 @@ import jakarta.servlet.http.HttpServletResponse;
  * @author user
  */
 public class VarServlet extends HttpServlet {
-    String names="NIYODUSENGA KHADIDJA";
+    String names="NSHIMIYIMANA JOSUE";
     Date time=new Date();
 
     /**
