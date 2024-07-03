@@ -1,0 +1,77 @@
+import jakarta.servlet.RequestDispatcher;
+import java.io.IOException;
+import java.io.PrintWriter;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import java.sql.*;
+
+public class insert_userServlet extends HttpServlet {
+    private static final String DB_URL = "jdbc:mysql://localhost:3306/it2024";
+    private static final String DB_USER = "root";
+    private static final String DB_PASSWORD = "";
+
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
+        try (PrintWriter out = response.getWriter()) {
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet InsertUserServlet</title>");            
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet InsertUserServlet at " + request.getContextPath() + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
+        }
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        processRequest(request, response);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
+        try (PrintWriter out = response.getWriter()) {
+            String firstname = request.getParameter("fname");
+            String lastname = request.getParameter("lname");
+            String email = request.getParameter("email");
+            String username = request.getParameter("username");
+            String password = request.getParameter("password");
+
+            try {
+                Class.forName("com.mysql.cj.jdbc.Driver");
+                try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)) {
+                    String sql = "INSERT INTO users (fname, lname, email, username, password) VALUES (?, ?, ?, ?, ?)";
+                    try (PreparedStatement ps = conn.prepareStatement(sql)) {
+                        ps.setString(1, firstname);
+                        ps.setString(2, lastname);
+                        ps.setString(3, email);
+                        ps.setString(4, username);
+                        ps.setString(5, password);
+                        int result = ps.executeUpdate();
+                        
+                        if (result > 0) {
+                            out.println("User registered successfully!");
+                        } else {
+                            out.println("User registration failed.");
+                        }
+                    }
+                }
+            } catch (ClassNotFoundException | SQLException ex) {
+                ex.printStackTrace(out);
+            }
+        }
+    }
+
+    @Override
+    public String getServletInfo() {
+        return "Short description";
+    }
+}
